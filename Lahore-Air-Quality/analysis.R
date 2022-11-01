@@ -26,25 +26,52 @@ View(median_data_2015)
 print(class(median_data))
 
 View(median_data)
+
 ggplot(median_data) + 
   geom_line(mapping = aes(x=date, y=median)) +
   ylim(0,10)
 
-is.na(median)
-j <- 0
+#is.na(median)
+#j <- 0
 
-for (i in is.na(median)) {
-  if (i == TRUE){
-  j= j+1
-  }
-}
-print(j)
+#for (i in is.na(median)) {
+#  if (i == TRUE){
+#  j= j+1
+#  }
+#}
+#print(j)
 
 monthly_median_2015 <- median_data_2015 %>%
     group_by(month = lubridate::floor_date(date, "month")) %>%
     summarize(average = mean(median))
 
+monthly_median_2016 <- median_data_2016 %>%
+  group_by(month = lubridate::floor_date(date, "month")) %>%
+  summarize(average = mean(median))
+
+monthly_median <- median_data %>%
+  group_by(month = lubridate::floor_date(date, "month")) %>%
+  summarize(average = mean(median))
+
+
+
+ggplot(monthly_median) + 
+  geom_line(mapping = aes(x=month, y=average)) +
+  scale_x_date(date_breaks="1 month", date_labels="%m") +
+  xlab("years") +
+  ylab("Average Nitrogen presence") +
+  ylim(0,10)
 
 ggplot(monthly_median_2015) + 
   geom_line(mapping = aes(x=month, y=average)) +
+  scale_x_date(date_breaks="1 month", date_labels="%m") +
+  xlab("years") +
+  ylab("Average Nitrogen presence") +
+  ylim(0,10)
+
+ggplot(monthly_median_2016) + 
+  geom_line(mapping = aes(x=month, y=average)) +
+  scale_x_date(date_breaks="1 month", date_labels="%m") +
+  xlab("years") +
+  ylab("Average Nitrogen presence") +
   ylim(0,10)
