@@ -54,9 +54,7 @@ monthly_median$month <- lubridate::month(monthly_median$date)
 
 ggplot(monthly_median) + 
   geom_line(mapping = aes(x = factor(month), y=average, color=factor(year), group=factor(year))) +
-  xlab("Month") +
-  ylab("Average NO2 Presence in Troposphere") +
-  ylim(0,10)
-
+  ylim(0,10) +
+  labs(x="Month", y="Average NO2 Presence in Troposphere", color = "Year")
 
 
