@@ -13,6 +13,8 @@ print(class(OMNO2_Timeseries_Lahore$`Date(yyyy-mm-dd)`))
 
 date <- as.Date(OMNO2_Timeseries_Lahore$`Date(yyyy-mm-dd)`,format = "%d/%m/%Y")
 
+typeof(date)
+
 median_data = data.frame(date,median)
 median_data_2015 <- median_data[median_data$date >= "2015-01-01" & median_data$date <= "2015-12-31",]
 median_data_2016 <- median_data[median_data$date >= "2016-01-01" & median_data$date <= "2016-12-31",]
@@ -27,9 +29,7 @@ print(class(median_data))
 
 View(median_data)
 
-ggplot(median_data) + 
-  geom_line(mapping = aes(x=date, y=median)) +
-  ylim(0,10)
+
 
 #is.na(median)
 #j <- 0
@@ -41,37 +41,22 @@ ggplot(median_data) +
 #}
 #print(j)
 
-monthly_median_2015 <- median_data_2015 %>%
-    group_by(month = lubridate::floor_date(date, "month")) %>%
-    summarize(average = mean(median))
-
-monthly_median_2016 <- median_data_2016 %>%
-  group_by(month = lubridate::floor_date(date, "month")) %>%
-  summarize(average = mean(median))
-
 monthly_median <- median_data %>%
-  group_by(month = lubridate::floor_date(date, "month")) %>%
+  group_by(date = lubridate::floor_date(date, "month")) %>%
   summarize(average = mean(median))
+
+View(monthly_median)
+
+monthly_median$year <- lubridate::year(monthly_median$date)
+monthly_median$month <- lubridate::month(monthly_median$date)
 
 
 
 ggplot(monthly_median) + 
-  geom_line(mapping = aes(x=month, y=average)) +
-  scale_x_date(date_breaks="1 month", date_labels="%m") +
-  xlab("years") +
-  ylab("Average Nitrogen presence") +
+  geom_line(mapping = aes(x = factor(month), y=average, color=factor(year), group=factor(year))) +
+  xlab("Month") +
+  ylab("Average NO2 Presence in Troposphere") +
   ylim(0,10)
 
-ggplot(monthly_median_2015) + 
-  geom_line(mapping = aes(x=month, y=average)) +
-  scale_x_date(date_breaks="1 month", date_labels="%m") +
-  xlab("years") +
-  ylab("Average Nitrogen presence") +
-  ylim(0,10)
 
-ggplot(monthly_median_2016) + 
-  geom_line(mapping = aes(x=month, y=average)) +
-  scale_x_date(date_breaks="1 month", date_labels="%m") +
-  xlab("years") +
-  ylab("Average Nitrogen presence") +
-  ylim(0,10)
+
