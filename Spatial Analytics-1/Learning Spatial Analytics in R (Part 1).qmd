@@ -4,6 +4,7 @@ author: "Muhammad Uzair"
 image: ""
 description: ""
 categories: ["Spatial Analytics"]
+bibliography: references.bib
 date: last-modified
 ---
 
@@ -21,11 +22,39 @@ For over 20 years, **R** community has developed number of R packages for handli
 
 ## What is GIS
 
+Spatial data storage and analysis is traditionally done in Geographical Information System (GIS). According to @burrough_1998 a GIS is ‘. . . a powerful set of tools for collecting, storing, retrieving at will, transforming, and displaying spatial data from the real world for a particular set of purposes’. 
 
+For many spatial projects, using GIS is enough for the project requirements, but **R** makes a good choice for spatial data because of its capability in data analysis and visualization. Now a days **R** scripts are used with GIS software and possibly GIS database as well. 
 
 ## Types of Spatial Data
+
+Before we move to spatial analysis and its equivalent classes, we must be clear in types of Spatial Data types. A broad understanding of spatial data is following by @roger_2013:
+
+**Spatial data have spatial reference : they have coordinate values and a system of reference for these coordinates.**
+
+As a simple example, we consider a locations of all famous mountain peaks in Pakistan. We could list the locations of these mountain peaks as pairs of longitude/latitude decimal degree values with respect to the prime meridian at Greenwich and zero latitude at the equator. 
+
+Suppose we are interested in the temperatures between 1990 - 2020 on these mountain peaks. This information is called as *attribute*:
+
+** A non spatial entity but this information will exist for each spatial entity that is mountains. **
+
+
+
 
 
 
 
 ## Intro to Spatial Data Methods in R
+
+
+
+
+
+
+
+
+### References
+
+::: {#refs}
+:::
+
