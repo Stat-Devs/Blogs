@@ -7,7 +7,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Muhammad Uzair">
+<<<<<<< HEAD
 <meta name="dcterms.date" content="2022-12-20">
+=======
+<meta name="dcterms.date" content="2022-12-15">
+>>>>>>> c5a2c6b400c7bc2ab524a8c7f4dcbd33c24f7599
 
 <title>Hello World : Introducing Spatial Data</title>
 <style>
@@ -22,6 +26,28 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
+<<<<<<< HEAD
+=======
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+>>>>>>> c5a2c6b400c7bc2ab524a8c7f4dcbd33c24f7599
 </style>
 
 
@@ -67,7 +93,11 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
+<<<<<<< HEAD
       <p class="date">December 20, 2022</p>
+=======
+      <p class="date">December 15, 2022</p>
+>>>>>>> c5a2c6b400c7bc2ab524a8c7f4dcbd33c24f7599
     </div>
   </div>
   
@@ -77,8 +107,13 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<<<<<<< HEAD
 <section id="what-is-spatial-analytics" class="level4">
 <h4 class="anchored" data-anchor-id="what-is-spatial-analytics">What is Spatial Analytics?</h4>
+=======
+<section id="what-is-spatial-analytics" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-spatial-analytics">What is Spatial Analytics?</h2>
+>>>>>>> c5a2c6b400c7bc2ab524a8c7f4dcbd33c24f7599
 <p>Spatial and Spatio-temporal data is all around us. In televisions and newspapers, we repeatedly see reporters informing the viewers <em>What are the chances of rain today?</em>, <em>How the weather conditions vary between Karachi and Islamabad?</em>. Beyond asking simple questions, spatial data is necessary for making maps and visualizations to understand how the variations occur between the underlying regions. To make it simple, Geospatial data combines <em>locations</em> such as regions, streets or census block with information in the database. <em>Spatial Data Analysis</em> is concerned with questions not directly answered by looking at the data themselves. Statistical inference for such hypothesis is often challenging since it needs spatial data handling, spatial analysis and spatial modelling.</p>
 <p>In this blog series we will learn and understand the fundamentals of Spatial Data Science.</p>
 </section>
@@ -88,12 +123,48 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="what-is-gis" class="level2">
 <h2 class="anchored" data-anchor-id="what-is-gis">What is GIS</h2>
+<<<<<<< HEAD
 </section>
 <section id="types-of-spatial-data" class="level2">
 <h2 class="anchored" data-anchor-id="types-of-spatial-data">Types of Spatial Data</h2>
 </section>
 <section id="intro-to-spatial-data-methods-in-r" class="level2">
 <h2 class="anchored" data-anchor-id="intro-to-spatial-data-methods-in-r">Intro to Spatial Data Methods in R</h2>
+=======
+<p>Spatial data storage and analysis is traditionally done in Geographical Information System (GIS). According to <span class="citation" data-cites="burrough_1998">Burrough and McDonnell (<a href="#ref-burrough_1998" role="doc-biblioref">1998</a>)</span> a GIS is ‘. . . a powerful set of tools for collecting, storing, retrieving at will, transforming, and displaying spatial data from the real world for a particular set of purposes’.</p>
+<p>For many spatial projects, using GIS is enough for the project requirements, but <strong>R</strong> makes a good choice for spatial data because of its capability in data analysis and visualization. Now a days <strong>R</strong> scripts are used with GIS software and possibly GIS database as well.</p>
+</section>
+<section id="types-of-spatial-data" class="level2">
+<h2 class="anchored" data-anchor-id="types-of-spatial-data">Types of Spatial Data</h2>
+<p>Before we move to spatial analysis and its equivalent classes, we must be clear in types of Spatial Data types. A broad understanding of spatial data by <span class="citation" data-cites="roger_2013">Roger S. Bivand (<a href="#ref-roger_2013" role="doc-biblioref">2013</a>)</span> is as follows:</p>
+<p><strong>Spatial data have spatial reference : they have coordinate values and a system of reference for these coordinates.</strong></p>
+<p>As a simple example, we are interested in the volcanoes that have shown activity between 1980 and 2000. We could list the locations of these volcanoes as pairs of longitude/latitude decimal degree values with respect to the prime meridian at Greenwich and zero latitude at the equator.</p>
+<p>If we also have the magnitude of the last observed eruption at the volcano this information is called as <strong>Non spatial attribute</strong>:</p>
+<p>A non spatial entity but the information will exist for each spatial entity (volcano).</p>
+<p>The non spatial attributes are utilized for characterizing the non spatial features of the object. Other similar examples for non spatial attributes would be population of the city and unemployment rate in the city.</p>
+<p>It is important to understand that without such <em>explicit</em> spatial attributes, points in the map have <em>implicit</em> attributes. The implicit attributes are also known as <strong>Spatial attributes</strong>. We represent such <em>spatial</em> information of entities by <em>data models</em>. The different types of different data models are as follows defined in <span class="citation" data-cites="roger_2013">Roger S. Bivand (<a href="#ref-roger_2013" role="doc-biblioref">2013</a>)</span>:</p>
+<p><strong>Point:</strong> &nbsp; a single point location, such as a GPS reading or a geocoded address.</p>
+<p><strong>Line:</strong> &nbsp; a set of ordered points, connected by straight line segments.</p>
+<p><strong>Polygon:</strong> &nbsp; an area, marked by one or more enclosing lines, possibly containing holes.</p>
+<p><strong>Grid:</strong> &nbsp; a collection of points or rectangular cells, organized in regular lattice.</p>
+<p>Point, line and Polygon are <strong>vector data models</strong> and represented entities as closely as possible, while Grid is a <strong>rastar data model</strong> representing continuous surfaces using regular tessellation (pattern of shapes that fit together perfectly.)</p>
+</section>
+<section id="ending-remarks" class="level2">
+<h2 class="anchored" data-anchor-id="ending-remarks">Ending Remarks</h2>
+<p>Spatial Data Mining is a huge field which helps us analyzing how certain variables geographically impact our lives. Why certain spatial relationships exist? Why are certain locations popular travel destinations? Why does a brand do successfully in one country and not in another?</p>
+<p>In this article, I explained fundamental blocks of spatial analysis including the spatial and non spatial attributes. Next week, we will dive in exploring <em>Points</em> which form a fundamental component of maps</p>
+<section id="references" class="level3">
+<h3 class="anchored" data-anchor-id="references">References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-burrough_1998" class="csl-entry" role="doc-biblioentry">
+Burrough, P. A., and R. A. McDonnell. 1998. <em>Principles of Geographical Information Systems</em>. Oxford University Press.
+</div>
+<div id="ref-roger_2013" class="csl-entry" role="doc-biblioentry">
+Roger S. Bivand, Virgilio Gómez-Rubio, Edzer Pebesma. 2013. <em>Applied Spatial Data Analysis with r</em>. Springer New York, NY.
+</div>
+</div>
+</section>
+>>>>>>> c5a2c6b400c7bc2ab524a8c7f4dcbd33c24f7599
 </section>
 
 </main>
