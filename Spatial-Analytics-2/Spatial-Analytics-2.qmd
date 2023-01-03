@@ -1,0 +1,90 @@
+---
+title: "Spatial Objects And Points in R"
+author: "Muhammad Uzair Aslam"
+image: ""
+description: ""
+categories: ["Spatial Analytics"]
+bibliography: references.bib
+date: last-modified
+---
+
+In my last article, I explained the fundamentals of Spatial Data Analysis and different types of Spatial Data including point, line, polygon and grid. If you want a quick recap, you can find it here :
+
+[Hello World: Introducing Spatial Data](https://muzairaslam.medium.com/hello-world-introducing-spatial-data-6c831e87e83f)
+
+I ended my last article with the promise of covering **Points** in my next article. In this article I will make a deep dive in Spatial Objects and Spatial Points in R.
+
+Points are one of the important *data models* in R. However, before we dive into *Spatial Points*, I want to give brief overview of Spatial Objects in R.
+
+## Spatial Objects in R
+
+R developers wrote a special package **sp** which extend base R classes and methods for spatial data. To get things started download **sp** by following command:
+
+```{r install_package, eval=FALSE}
+install.packages("sp")
+```
+
+Next, we attach the package by:
+
+```{r package_call}
+library(sp)
+```
+
+I will call the **Spatial** class using **getClass** method to get the complete definition of a **S4** class in R. This includes the slot names and types of their content:
+
+```{r get_class,}
+getClass("Spatial")
+```
+
+This returns us two important information about this class.
+
+1.  Slots: a named component of the object that is accessed using the specialized sub-setting operator \@ (pronounced at). In our case we see that **Spatial** class has two named components :
+
+    1.  Matrix
+
+    2.  CRS (Cordinate Reference System)
+
+2.  Known Sub classes: These are classes that inherit one or more language entities from another class/classes. In our case **SpatialPoints** class inherits language entities from **Spatial** class. In other words, there is parent-child relationship between Spatial class and SpatialPoints class.
+
+In my later blogs, I will explain the purpose of Matrix and Coordinate Reference System. But for now, we will move to Spatial Points which is a sub class of Spatial. 
+
+## Spatial Points
+
+From our mathematical knowledge, we know that point is a pair of numbers in $ (x,y) $ defined over a known region. According to @herring_2011, it is a **0 - dimensional geometric object** and represents a **single** location in a coordinate space.
+
+The understanding of Earth before the introduction of World Geodetic System 1984 was sphere. But later Geodesists represented the globe more accurately by ellipsoid model. Today Global Positioning System uses the World Geodetic System (WGS84) as its reference coordinate system. More details about about WGS84 can be found [here](https://gisgeography.com/wgs84-world-geodetic-system/).
+
+To understand the methods and functions provided by SpaitalPoints, I read a data file with the positions of CRAN mirrors across the world in 2005. We first pull the data in R:
+ 
+```{r}
+#| cache: true
+df<-read.table("http://www.asdar-book.org/datasets/CRAN051001a.txt", header = TRUE)
+```
+
+Then we see its first six rows:
+
+```{r}
+head(df)
+```
+ 
+
+### Methods
+
+### Data Frames for Spatial Point Data
+
+
+
+
+#### References
+
+
+::: {#refs}
+:::
+
+
+
+
+
+
+
+
