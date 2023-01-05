@@ -1,7 +1,9 @@
 ---
 title: "Spatial Objects And Points in R"
 author: "Muhammad Uzair Aslam"
-image: ""
+about: 
+  template: jolla
+  image: points.jpg
 description: ""
 categories: ["Spatial Analytics"]
 bibliography: references.bib
@@ -12,9 +14,16 @@ In my last article, I explained the fundamentals of Spatial Data Analysis and di
 
 [Hello World: Introducing Spatial Data](https://muzairaslam.medium.com/hello-world-introducing-spatial-data-6c831e87e83f)
 
-I ended my last article with the promise of covering **Points** in my next article. In this article I will make a deep dive in Spatial Objects and Spatial Points in R.
+I ended the last article with the promise of covering **Points** in my next article. In this article I will make a deep dive in Spatial Objects and Spatial Points in R.
 
-Points are one of the important *data models* in R. However, before we dive into *Spatial Points*, I want to give brief overview of Spatial Objects in R.
+
+```{r Birth_place, out.width="80%", echo = FALSE, fig.align = 'center'}
+knitr::include_graphics("/home/muhammad/Stats-Dev/Repositories/Blogs/Spatial-Analytics-2/points.jpg")
+```
+
+
+
+Points are one of the important data models in R. However, before we dive into Spatial Points, I want to give brief overview of Spatial Objects in R.
 
 ## Spatial Objects in R
 
@@ -46,34 +55,91 @@ This returns us two important information about this class.
 
 2.  Known Sub classes: These are classes that inherit one or more language entities from another class/classes. In our case **SpatialPoints** class inherits language entities from **Spatial** class. In other words, there is parent-child relationship between Spatial class and SpatialPoints class.
 
-In my later blogs, I will explain the purpose of Matrix and Coordinate Reference System. But for now, we will move to Spatial Points which is a sub class of Spatial. 
-
 ## Spatial Points
 
-From our mathematical knowledge, we know that point is a pair of numbers in $ (x,y) $ defined over a known region. According to @herring_2011, it is a **0 - dimensional geometric object** and represents a **single** location in a coordinate space.
+From our mathematical knowledge, we know that point is a pair of numbers in $(x,y)$ defined over a known region. According to [@herring_2011], it is a **0 - dimensional geometric object** and represents a **single** location in a coordinate space.
 
-The understanding of Earth before the introduction of World Geodetic System 1984 was sphere. But later Geodesists represented the globe more accurately by ellipsoid model. Today Global Positioning System uses the World Geodetic System (WGS84) as its reference coordinate system. More details about about WGS84 can be found [here](https://gisgeography.com/wgs84-world-geodetic-system/).
+The understanding of Earth before the introduction of World Geodetic System 1984 was sphere. But later Geodesists represented the globe more accurately by ellipsoid model [@roger_2013]. Today Global Positioning System (GPS) uses the World Geodetic System (WGS84) as its reference coordinate system. More details about about WGS84 can be found [here](https://gisgeography.com/wgs84-world-geodetic-system/).
+
+We now see how SpatialPoints class extends Spatial class. By using getClass(), we can see the slot names and type of content.
+
+```{r}
+getClass("SpatialPoints")
+```
+
+We see that SpatialPoints extends Spatial class by adding a **coords** slot, into which a matrix of point cordinates can be inserted. We also see three other classes extended by SpatialPoints:
+
+1. SpatialPointsDataFrame
+
+2. SpatialPixels
+
+3. SpatialPixelsDataFrame
 
 To understand the methods and functions provided by SpaitalPoints, I read a data file with the positions of CRAN mirrors across the world in 2005. We first pull the data in R:
  
-```{r}
+```{r dataloading}
 #| cache: true
-df<-read.table("http://www.asdar-book.org/datasets/CRAN051001a.txt", header = TRUE)
+df <- read.table("http://www.asdar-book.org/datasets/CRAN051001a.txt", header = TRUE)
 ```
 
 Then we see its first six rows:
 
-```{r}
+```{r head}
 head(df)
 ```
  
+We extract the two columns with the longitude and latitude values into a matrix, and use str to
+view:
 
-### Methods
+```{r long_lat_matrix}
+# make a latitude and longitude matrix
+cran_mat <- cbind(df$long, df$lat) 
 
-### Data Frames for Spatial Point Data
+# assign row names from 1 to number of rows
+row.names(cran_mat) <- 1:nrow(cran_mat)
+
+# view the matrix structure
+str(cran_mat)
+```
+Before moving on it is necessary to introduce the coordinate reference system (CRS) class briefly. We saw that **Spatial** class had two slots. One of them was **Coordinate Reference System (CRS)**. Let us see the slot names and components.
+
+```{r}
+getClass("CRS")
+```
+
+We see that the class has a character string as its only slot value. The character string may be a missing value but if it is not missing it should be **PROJ.4-format** string describing the projection. For geographical coordinates, the simplest of such string is **"+proj=longlat"**. 
+
+We now see the implementation in our CRAN data set.
+
+```{r}
+# make a CRS object in longlat and World Geodetic System(WGS84)
+CRS_obj <- CRS(projargs = "+proj=longlat +ellps=WGS84")
+
+# check summary of the object
+summary(CRS_obj)
+```
+
+At this point you must be wondering what is **PROJ.4 format**?
+
+PROJ is a generic coordinate transformation software that transforms geospatial coordinates from one coordinate reference system (CRS) to another. This includes cartographic projections as well as geodetic transformations.
+
+To define a Coordinate Reference System in **sp** package we use CRS object which defines the  coordinate reference systems we use. 
+
+Finally we create SpatialPoints object
+
+```{r}
+# make a spatial points class by long/lat matrix and proj4string
+cran_sp <- SpatialPoints(coords = cran_mat, proj4string = CRS_obj)
+
+# summary of the cran_sp object
+summary(cran_sp)
+```
+SpatialPoints objects may have more than two dimensions, but plot methods for the class use only the first two. 
 
 
+### Ending Remarks
 
+In this article, we got an overview of Spaital and SpatialPoints class. But we are only half way done. In next article, I will explain the methods and data frames for spatial points to do some data wrangling. 
 
 #### References
 

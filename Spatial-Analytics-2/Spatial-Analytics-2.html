@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Muhammad Uzair Aslam">
-<meta name="dcterms.date" content="2023-01-03">
+<meta name="dcterms.date" content="2023-01-05">
 
 <title>Spatial Objects And Points in R</title>
 <style>
@@ -118,6 +118,7 @@ div.csl-indent {
 <link href="Spatial-Analytics-2_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="Spatial-Analytics-2_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -149,7 +150,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 3, 2023</p>
+      <p class="date">January 5, 2023</p>
     </div>
   </div>
   
@@ -161,8 +162,17 @@ div.csl-indent {
 
 <p>In my last article, I explained the fundamentals of Spatial Data Analysis and different types of Spatial Data including point, line, polygon and grid. If you want a quick recap, you can find it here :</p>
 <p><a href="https://muzairaslam.medium.com/hello-world-introducing-spatial-data-6c831e87e83f">Hello World: Introducing Spatial Data</a></p>
-<p>I ended my last article with the promise of covering <strong>Points</strong> in my next article. In this article I will make a deep dive in Spatial Objects and Spatial Points in R.</p>
-<p>Points are one of the important <em>data models</em> in R. However, before we dive into <em>Spatial Points</em>, I want to give brief overview of Spatial Objects in R.</p>
+<p>I ended the last article with the promise of covering <strong>Points</strong> in my next article. In this article I will make a deep dive in Spatial Objects and Spatial Points in R.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="points.jpg" class="img-fluid figure-img" style="width:80.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Points are one of the important data models in R. However, before we dive into Spatial Points, I want to give brief overview of Spatial Objects in R.</p>
 <section id="spatial-objects-in-r" class="level2">
 <h2 class="anchored" data-anchor-id="spatial-objects-in-r">Spatial Objects in R</h2>
 <p>R developers wrote a special package <strong>sp</strong> which extend base R classes and methods for spatial data. To get things started download <strong>sp</strong> by following command:</p>
@@ -208,19 +218,43 @@ Class "SpatialPolygonsDataFrame", by class "SpatialPolygons", distance 2</code><
 </ol></li>
 <li><p>Known Sub classes: These are classes that inherit one or more language entities from another class/classes. In our case <strong>SpatialPoints</strong> class inherits language entities from <strong>Spatial</strong> class. In other words, there is parent-child relationship between Spatial class and SpatialPoints class.</p></li>
 </ol>
-<p>In my later blogs, I will explain the purpose of Matrix and Coordinate Reference System. But for now, we will move to Spatial Points which is a sub class of Spatial.</p>
 </section>
 <section id="spatial-points" class="level2">
 <h2 class="anchored" data-anchor-id="spatial-points">Spatial Points</h2>
-<p>From our mathematical knowledge, we know that point is a pair of numbers in $ (x,y) $ defined over a known region. According to <span class="citation" data-cites="herring_2011">Herring (<a href="#ref-herring_2011" role="doc-biblioref">2011</a>)</span>, it is a <strong>0 - dimensional geometric object</strong> and represents a <strong>single</strong> location in a coordinate space.</p>
-<p>The understanding of Earth before the introduction of World Geodetic System 1984 was sphere. But later Geodesists represented the globe more accurately by ellipsoid model. Today Global Positioning System uses the World Geodetic System (WGS84) as its reference coordinate system. More details about about WGS84 can be found <a href="https://gisgeography.com/wgs84-world-geodetic-system/">here</a>.</p>
+<p>From our mathematical knowledge, we know that point is a pair of numbers in <span class="math inline">\((x,y)\)</span> defined over a known region. According to <span class="citation" data-cites="herring_2011">(<a href="#ref-herring_2011" role="doc-biblioref">Herring 2011</a>)</span>, it is a <strong>0 - dimensional geometric object</strong> and represents a <strong>single</strong> location in a coordinate space.</p>
+<p>The understanding of Earth before the introduction of World Geodetic System 1984 was sphere. But later Geodesists represented the globe more accurately by ellipsoid model <span class="citation" data-cites="roger_2013">(<a href="#ref-roger_2013" role="doc-biblioref">Roger S. Bivand 2013</a>)</span>. Today Global Positioning System (GPS) uses the World Geodetic System (WGS84) as its reference coordinate system. More details about about WGS84 can be found <a href="https://gisgeography.com/wgs84-world-geodetic-system/">here</a>.</p>
+<p>We now see how SpatialPoints class extends Spatial class. By using getClass(), we can see the slot names and type of content.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getClass</span>(<span class="st">"SpatialPoints"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Class "SpatialPoints" [package "sp"]
+
+Slots:
+                                          
+Name:       coords        bbox proj4string
+Class:      matrix      matrix         CRS
+
+Extends: "Spatial"
+
+Known Subclasses: 
+Class "SpatialPointsDataFrame", directly
+Class "SpatialPixels", directly
+Class "SpatialPixelsDataFrame", by class "SpatialPixels", distance 2</code></pre>
+</div>
+</div>
+<p>We see that SpatialPoints extends Spatial class by adding a <strong>coords</strong> slot, into which a matrix of point cordinates can be inserted. We also see three other classes extended by SpatialPoints:</p>
+<ol type="1">
+<li><p>SpatialPointsDataFrame</p></li>
+<li><p>SpatialPixels</p></li>
+<li><p>SpatialPixelsDataFrame</p></li>
+</ol>
 <p>To understand the methods and functions provided by SpaitalPoints, I read a data file with the positions of CRAN mirrors across the world in 2005. We first pull the data in R:</p>
-<div class="cell" data-hash="Spatial-Analytics-2_cache/html/unnamed-chunk-1_2a240ac26548cf951e896d8750543f7c">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">"http://www.asdar-book.org/datasets/CRAN051001a.txt"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="Spatial-Analytics-2_cache/html/dataloading_1f2235775ba44de746ac261c474c09cc">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"http://www.asdar-book.org/datasets/CRAN051001a.txt"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then we see its first six rows:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           place   north     east       loc      long       lat
 1       Brisbane 27d28'S 153d02'E Australia 153.03333 -27.46667
@@ -231,16 +265,85 @@ Class "SpatialPolygonsDataFrame", by class "SpatialPolygons", distance 2</code><
 6 Rio de Janeiro 22d54'S  43d12'W    Brazil -43.20000 -22.90000</code></pre>
 </div>
 </div>
-<section id="methods" class="level3">
-<h3 class="anchored" data-anchor-id="methods">Methods</h3>
-</section>
-<section id="data-frames-for-spatial-point-data" class="level3">
-<h3 class="anchored" data-anchor-id="data-frames-for-spatial-point-data">Data Frames for Spatial Point Data</h3>
+<p>We extract the two columns with the longitude and latitude values into a matrix, and use str to view:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make a latitude and longitude matrix</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>cran_mat <span class="ot">&lt;-</span> <span class="fu">cbind</span>(df<span class="sc">$</span>long, df<span class="sc">$</span>lat) </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># assign row names from 1 to number of rows</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>(cran_mat) <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(cran_mat)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co"># view the matrix structure</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(cran_mat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> num [1:54, 1:2] 153 145 16.3 -49.3 -42.9 ...
+ - attr(*, "dimnames")=List of 2
+  ..$ : chr [1:54] "1" "2" "3" "4" ...
+  ..$ : NULL</code></pre>
+</div>
+</div>
+<p>Before moving on it is necessary to introduce the coordinate reference system (CRS) class briefly. We saw that <strong>Spatial</strong> class had two slots. One of them was <strong>Coordinate Reference System (CRS)</strong>. Let us see the slot names and components.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getClass</span>(<span class="st">"CRS"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Class "CRS" [package "sp"]
+
+Slots:
+                
+Name:   projargs
+Class: character</code></pre>
+</div>
+</div>
+<p>We see that the class has a character string as its only slot value. The character string may be a missing value but if it is not missing it should be <strong>PROJ.4-format</strong> string describing the projection. For geographical coordinates, the simplest of such string is <strong>“+proj=longlat”</strong>.</p>
+<p>We now see the implementation in our CRAN data set.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make a CRS object in longlat and World Geodetic System(WGS84)</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>CRS_obj <span class="ot">&lt;-</span> <span class="fu">CRS</span>(<span class="at">projargs =</span> <span class="st">"+proj=longlat +ellps=WGS84"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in showSRID(uprojargs, format = "PROJ", multiline = "NO", prefer_proj
+= prefer_proj): Discarded datum Unknown based on WGS84 ellipsoid in Proj4
+definition</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># check summary of the object</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(CRS_obj)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Length  Class   Mode 
+     1    CRS     S4 </code></pre>
+</div>
+</div>
+<p>At this point you must be wondering what is <strong>PROJ.4 format</strong>?</p>
+<p>PROJ is a generic coordinate transformation software that transforms geospatial coordinates from one coordinate reference system (CRS) to another. This includes cartographic projections as well as geodetic transformations.</p>
+<p>To define a Coordinate Reference System in <strong>sp</strong> package we use CRS object which defines the coordinate reference systems we use.</p>
+<p>Finally we create SpatialPoints object</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make a spatial points class by long/lat matrix and proj4string</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>cran_sp <span class="ot">&lt;-</span> <span class="fu">SpatialPoints</span>(<span class="at">coords =</span> cran_mat, <span class="at">proj4string =</span> CRS_obj)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># summary of the cran_sp object</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cran_sp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Object of class SpatialPoints
+Coordinates:
+                 min      max
+coords.x1 -122.95000 153.0333
+coords.x2  -37.81667  57.0500
+Is projected: FALSE 
+proj4string : [+proj=longlat +ellps=WGS84 +no_defs]
+Number of points: 54</code></pre>
+</div>
+</div>
+<p>SpatialPoints objects may have more than two dimensions, but plot methods for the class use only the first two.</p>
+<section id="ending-remarks" class="level3">
+<h3 class="anchored" data-anchor-id="ending-remarks">Ending Remarks</h3>
+<p>In this article, we got an overview of Spaital and SpatialPoints class. But we are only half way done. In next article, I will explain the methods and data frames for spatial points to do some data wrangling.</p>
 <section id="references" class="level4">
 <h4 class="anchored" data-anchor-id="references">References</h4>
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
 <div id="ref-herring_2011" class="csl-entry" role="doc-biblioentry">
 Herring, J. R. 2011. <em>OpenGIS® Implementation Standard for Geographic Information - Simple Feature Access - Part 1: Common Architecture. Technical Report 1.2.1</em>. Open Geospatial Consortium Inc.
+</div>
+<div id="ref-roger_2013" class="csl-entry" role="doc-biblioentry">
+Roger S. Bivand, Virgilio Gómez-Rubio, Edzer Pebesma. 2013. <em>Applied Spatial Data Analysis with r</em>. Springer New York, NY.
 </div>
 </div>
 </section>
