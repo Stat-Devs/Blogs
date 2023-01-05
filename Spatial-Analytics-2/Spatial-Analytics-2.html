@@ -160,9 +160,9 @@ div.csl-indent {
 
 </header>
 
-<p>In my last article, I explained the fundamentals of Spatial Data Analysis and different types of Spatial Data including point, line, polygon and grid. If you want a quick recap, you can find it here :</p>
+<p>In my last article, I explained the fundamentals of Spatial Data Analysis and different types of Spatial Data including points, lines, polygons, and grids. If you want a quick recap, you can find it here:</p>
 <p><a href="https://muzairaslam.medium.com/hello-world-introducing-spatial-data-6c831e87e83f">Hello World: Introducing Spatial Data</a></p>
-<p>I ended the last article with the promise of covering <strong>Points</strong> in my next article. In this article I will make a deep dive in Spatial Objects and Spatial Points in R.</p>
+<p>I ended the last article with the promise of covering Points in my next article. In this article, I will make a deep dive into Spatial Objects and Spatial Points in R.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -172,10 +172,10 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<p>Points are one of the important data models in R. However, before we dive into Spatial Points, I want to give brief overview of Spatial Objects in R.</p>
+<p>Points are one of the important data models in R. However before we dive into Spatial Points, I want to give a brief overview of Spatial Objects in R.</p>
 <section id="spatial-objects-in-r" class="level2">
 <h2 class="anchored" data-anchor-id="spatial-objects-in-r">Spatial Objects in R</h2>
-<p>R developers wrote a special package <strong>sp</strong> which extend base R classes and methods for spatial data. To get things started download <strong>sp</strong> by following command:</p>
+<p>R developers wrote a special package sp which extends base R classes and methods for spatial data. To get things started download sp by following the command:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"sp"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -183,7 +183,7 @@ div.csl-indent {
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>I will call the <strong>Spatial</strong> class using <strong>getClass</strong> method to get the complete definition of a <strong>S4</strong> class in R. This includes the slot names and types of their content:</p>
+<p>I will call the Spatial class using the getClass method to get the complete definition of an S4 class in R. This includes the slot names and types of their content:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getClass</span>(<span class="st">"Spatial"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -209,7 +209,7 @@ Class "SpatialPixelsDataFrame", by class "SpatialPoints", distance 3
 Class "SpatialPolygonsDataFrame", by class "SpatialPolygons", distance 2</code></pre>
 </div>
 </div>
-<p>This returns us two important information about this class.</p>
+<p>This returns us to two important pieces of information about this class.</p>
 <ol type="1">
 <li><p>Slots: a named component of the object that is accessed using the specialized sub-setting operator @ (pronounced at). In our case we see that <strong>Spatial</strong> class has two named components :</p>
 <ol type="1">
@@ -242,7 +242,7 @@ Class "SpatialPixels", directly
 Class "SpatialPixelsDataFrame", by class "SpatialPixels", distance 2</code></pre>
 </div>
 </div>
-<p>We see that SpatialPoints extends Spatial class by adding a <strong>coords</strong> slot, into which a matrix of point cordinates can be inserted. We also see three other classes extended by SpatialPoints:</p>
+<p>We see that SpatialPoints extends the Spatial class by adding a <strong>coords</strong> slot, into which a matrix of point coordinates can be inserted. We also see three other classes extended by SpatialPoints:</p>
 <ol type="1">
 <li><p>SpatialPointsDataFrame</p></li>
 <li><p>SpatialPixels</p></li>
@@ -282,7 +282,7 @@ Class "SpatialPixelsDataFrame", by class "SpatialPixels", distance 2</code></pre
   ..$ : NULL</code></pre>
 </div>
 </div>
-<p>Before moving on it is necessary to introduce the coordinate reference system (CRS) class briefly. We saw that <strong>Spatial</strong> class had two slots. One of them was <strong>Coordinate Reference System (CRS)</strong>. Let us see the slot names and components.</p>
+<p>Before moving on it is necessary to introduce the coordinate reference system (CRS) class briefly. We saw that the <strong>Spatial</strong> class had two slots. One of them was <strong>Coordinate Reference System (CRS)</strong>. Let us see the slot names and components.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getClass</span>(<span class="st">"CRS"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -335,7 +335,7 @@ Number of points: 54</code></pre>
 <p>SpatialPoints objects may have more than two dimensions, but plot methods for the class use only the first two.</p>
 <section id="ending-remarks" class="level3">
 <h3 class="anchored" data-anchor-id="ending-remarks">Ending Remarks</h3>
-<p>In this article, we got an overview of Spaital and SpatialPoints class. But we are only half way done. In next article, I will explain the methods and data frames for spatial points to do some data wrangling.</p>
+<p>In this article, we got an overview of the Spatial and SpatialPoints class. But we are only halfway done. In the next article, I will explain the methods and data frames for spatial points to do some data wrangling.</p>
 <section id="references" class="level4">
 <h4 class="anchored" data-anchor-id="references">References</h4>
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
