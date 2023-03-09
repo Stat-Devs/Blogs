@@ -1,72 +1,62 @@
 ---
 title: "Hello World : Introducing Spatial Data"
 author: "Muhammad Uzair"
-image: ""
-description: ""
+image: "Macro-Analysis-Research.png"
+description: "Spatial and Spatio-temporal data is all around us. In televisions and newspapers, we repeatedly see reporters informing the viewers What are the chances of rain today?, How the weather conditions vary between Karachi and Islamabad?"
 categories: ["Spatial Analytics"]
 bibliography: references.bib
 date: last-modified
 ---
 
-## What is Spatial Analytics?
+#### What is Spatial Analytics?
 
 Spatial and Spatio-temporal data is all around us. In televisions and newspapers, we repeatedly see reporters informing the viewers *What are the chances of rain today?*, *How the weather conditions vary between Karachi and Islamabad?*. Beyond asking simple questions, spatial data is necessary for making maps and visualizations to understand how the variations occur between the underlying regions. To make it simple, Geospatial data combines *locations* such as regions, streets or census block with information in the database. *Spatial Data Analysis* is concerned with questions not directly answered by looking at the data themselves. Statistical inference for such hypothesis is often challenging since it needs spatial data handling, spatial analysis and spatial modelling.
 
-In this blog series we will learn and understand the fundamentals of Spatial Data Science. 
+In this blog series we will learn and understand the fundamentals of Spatial Data Science.
 
+#### Why use R for Spatial Analysis
 
-## Why use R for Spatial Analysis
+For over 20 years, **R** community has developed number of R packages for handling and analysing spatial data. Upto 2003, these packages used to make different assumptions about how spatial data were organised. After some joint effort, the community developers wrote **R** package **sp** which *extends* base R classes and methods for spatial data. Classes specify a structure and define how spatial data is organized and stored while Methods are instances of functions specialised for particular class. Due to **sp** package, R community got enhanced tools for understanding Spatial data. Therefore, for our blog series we will use **sp** package and understand the different methods and classes of it.
 
-For over 20 years, **R** community has developed number of R packages for handling and analysing spatial data. Upto 2003, these packages used to make different assumptions about how spatial data were organised. After some joint effort, the community developers wrote **R** package **sp** which *extends* base R classes and methods for spatial data. Classes specify a structure and define how spatial data is organized and stored while Methods are instances of functions specialised for particular class. Due to **sp** package, R community got enhanced tools for understanding Spatial data. Therefore, for our blog series we will use **sp** package and understand the different methods and classes of it. 
+#### What is GIS
 
+Spatial data storage and analysis is traditionally done in Geographical Information System (GIS). According to @burrough_1998 a GIS is '. . . a powerful set of tools for collecting, storing, retrieving at will, transforming, and displaying spatial data from the real world for a particular set of purposes'.
 
-## What is GIS
+For many spatial projects, using GIS is enough for the project requirements, but **R** makes a good choice for spatial data because of its capability in data analysis and visualization. Now a days **R** scripts are used with GIS software and possibly GIS database as well.
 
-Spatial data storage and analysis is traditionally done in Geographical Information System (GIS). According to @burrough_1998 a GIS is ‘. . . a powerful set of tools for collecting, storing, retrieving at will, transforming, and displaying spatial data from the real world for a particular set of purposes’. 
-
-For many spatial projects, using GIS is enough for the project requirements, but **R** makes a good choice for spatial data because of its capability in data analysis and visualization. Now a days **R** scripts are used with GIS software and possibly GIS database as well. 
-
-## Types of Spatial Data
+#### Types of Spatial Data
 
 Before we move to spatial analysis and its equivalent classes, we must be clear in types of Spatial Data types. A broad understanding of spatial data by @roger_2013 is as follows:
 
 **Spatial data have spatial reference : they have coordinate values and a system of reference for these coordinates.**
 
-As a simple example, we are interested in the volcanoes that have shown activity between 1980 and 2000. We could list the locations of these volcanoes as pairs of longitude/latitude decimal degree values with respect to the prime meridian at Greenwich and zero latitude at the equator. 
+As a simple example, we are interested in the volcanoes that have shown activity between 1980 and 2000. We could list the locations of these volcanoes as pairs of longitude/latitude decimal degree values with respect to the prime meridian at Greenwich and zero latitude at the equator.
 
 If we also have the magnitude of the last observed eruption at the volcano this information is called as **Non spatial attribute**:
 
-A non spatial entity but the information will exist for each spatial entity (volcano). 
+A non spatial entity but the information will exist for each spatial entity (volcano).
 
 The non spatial attributes are utilized for characterizing the non spatial features of the object. Other similar examples for non spatial attributes would be population of the city and unemployment rate in the city.
 
 It is important to understand that without such *explicit* spatial attributes, points in the map have *implicit* attributes. The implicit attributes are also known as **Spatial attributes**. We represent such *spatial* information of entities by *data models*. The different types of different data models are as follows defined in @roger_2013:
 
-**Point:** &nbsp; a single point location, such as a GPS reading or a geocoded address.
+**Point:**   a single point location, such as a GPS reading or a geocoded address.
 
-**Line:** &nbsp; a set of ordered points, connected by straight line segments.
+**Line:**   a set of ordered points, connected by straight line segments.
 
-**Polygon:** &nbsp; an area, marked by one or more enclosing lines, possibly containing holes.
+**Polygon:**   an area, marked by one or more enclosing lines, possibly containing holes.
 
-**Grid:** &nbsp; a collection of points or rectangular cells, organized in regular lattice. 
-
+**Grid:**   a collection of points or rectangular cells, organized in regular lattice.
 
 Point, line and Polygon are **vector data models** and represented entities as closely as possible, while Grid is a **rastar data model** representing continuous surfaces using regular tessellation (pattern of shapes that fit together perfectly.)
 
-## Ending Remarks
+#### Ending Remarks
 
-Spatial Data Mining is a huge field which helps us analyze how certain variables geographically impact our lives. Why certain spatial relationships exist? Why are certain locations popular travel destinations? Why does a brand do successfully in one country and not in another? 
+Spatial Data Mining is a huge field which helps us analyze how certain variables geographically impact our lives. Why certain spatial relationships exist? Why are certain locations popular travel destinations? Why does a brand do successfully in one country and not in another?
 
 In this article, I explained fundamental blocks of spatial analysis including the spatial and non spatial attributes. Next week, we will dive in exploring *Points* which form a fundamental component of maps
 
-
-
-
-
-
-
-### References
+#### References
 
 ::: {#refs}
 :::
-
