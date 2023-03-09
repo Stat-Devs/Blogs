@@ -18,11 +18,12 @@ In this blog series we will learn and understand the fundamentals of Spatial Dat
 
 For over 20 years, **R** community has developed number of R packages for handling and analysing spatial data. Upto 2003, these packages used to make different assumptions about how spatial data were organised. After some joint effort, the community developers wrote **R** package **sp** which *extends* base R classes and methods for spatial data. Classes specify a structure and define how spatial data is organized and stored while Methods are instances of functions specialised for particular class. Due to **sp** package, R community got enhanced tools for understanding Spatial data. Therefore, for our blog series we will use **sp** package and understand the different methods and classes of it.
 
+
 #### What is GIS
 
-Spatial data storage and analysis is traditionally done in Geographical Information System (GIS). According to @burrough_1998 a GIS is '. . . a powerful set of tools for collecting, storing, retrieving at will, transforming, and displaying spatial data from the real world for a particular set of purposes'.
+Spatial data storage and analysis is traditionally done in Geographical Information System (GIS). According to @burrough_1998 a GIS is ‘. . . a powerful set of tools for collecting, storing, retrieving at will, transforming, and displaying spatial data from the real world for a particular set of purposes’. 
 
-For many spatial projects, using GIS is enough for the project requirements, but **R** makes a good choice for spatial data because of its capability in data analysis and visualization. Now a days **R** scripts are used with GIS software and possibly GIS database as well.
+For many spatial projects, using GIS is enough for the project requirements, but **R** makes a good choice for spatial data because of its capability in data analysis and visualization. Now a days **R** scripts are used with GIS software and possibly GIS database as well. 
 
 #### Types of Spatial Data
 
@@ -56,7 +57,14 @@ Spatial Data Mining is a huge field which helps us analyze how certain variables
 
 In this article, I explained fundamental blocks of spatial analysis including the spatial and non spatial attributes. Next week, we will dive in exploring *Points* which form a fundamental component of maps
 
+
+
+
+
+
+
 #### References
+
 
 ::: {#refs}
 :::
