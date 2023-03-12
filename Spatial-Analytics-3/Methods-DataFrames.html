@@ -148,18 +148,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Methods are available to access the values of the slots of Spatial objects. Here I will explain two important Methods for dealing with <strong>SpatialPoints</strong>.</p>
 <ol type="1">
 <li>bbox(): It returns the bounding box an object. It is used for data handling and data visualization of <strong>SpatialPoints</strong> class.</li>
+<li>proj4string(): Sets or retrieves projection attributes on classes extending SpatialData.</li>
 <li>coordinates(): It extracts the coordinates from <strong>SpatialPoints</strong> class.</li>
 <li>summary(): It reports the number of spatial entities, the projection information, and the bounding box in <strong>SpatialPoints</strong> class.</li>
 </ol>
 <p>To have a deeper understanding what each of these methods in the <strong>sp</strong> package, I read a data file with the positions of CRAN mirrors across the world in 2005.</p>
-<div class="cell" data-hash="Methods-DataFrames_cache/html/dataloading_56270f2280fa33bff51dfbad2f460e2f">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sp)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"http://www.asdar-book.org/datasets/CRAN051001a.txt"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="Methods-DataFrames_cache/html/dataloading_6809fa796298346cfe3aa3f65aefca4b">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"http://www.asdar-book.org/datasets/CRAN051001a.txt"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then we see its first six rows:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           place   north     east       loc      long       lat
 1       Brisbane 27d28'S 153d02'E Australia 153.03333 -27.46667
@@ -177,14 +179,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 <p>I start with making a longitude and latitude matrix</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make a latitude and longitude matrix</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>cran_mat <span class="ot">&lt;-</span> <span class="fu">cbind</span>(df<span class="sc">$</span>long, df<span class="sc">$</span>lat) </span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># assign row names from 1 to number of rows</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>(cran_mat) <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(cran_mat)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># view the matrix structure</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(cran_mat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make a latitude and longitude matrix</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>cran_mat <span class="ot">&lt;-</span> <span class="fu">cbind</span>(df<span class="sc">$</span>long, df<span class="sc">$</span>lat) </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># assign row names from 1 to number of rows</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>(cran_mat) <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(cran_mat)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># view the matrix structure</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(cran_mat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> num [1:54, 1:2] 153 145 16.3 -49.3 -42.9 ...
  - attr(*, "dimnames")=List of 2
@@ -194,24 +196,72 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>Then I make CRS (Coordinate Reference System) object:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make a CRS object in longlat and World Geodetic System(WGS84)</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>CRS_obj <span class="ot">&lt;-</span> <span class="fu">CRS</span>(<span class="at">projargs =</span> <span class="st">"+proj=longlat +ellps=WGS84"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make a CRS object in longlat and World Geodetic System(WGS84)</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>CRS_obj <span class="ot">&lt;-</span> <span class="fu">CRS</span>(<span class="at">projargs =</span> <span class="st">"+proj=longlat +ellps=WGS84"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Finally I create <strong>SpatialPoints</strong> object using the longitude and latitude matrix and CRS.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make a spatial points class by long/lat matrix and proj4string</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>cran_sp <span class="ot">&lt;-</span> <span class="fu">SpatialPoints</span>(<span class="at">coords =</span> cran_mat, <span class="at">proj4string =</span> CRS_obj)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make a spatial points class by long/lat matrix and proj4string</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>cran_sp <span class="ot">&lt;-</span> <span class="fu">SpatialPoints</span>(<span class="at">coords =</span> cran_mat, <span class="at">proj4string =</span> CRS_obj)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now I use the first method : bbox() on the object.</p>
+<p>Now I use the first method : <strong>bbox()</strong> on our spatial object.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bbox</span>(cran_sp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bbox</span>(cran_sp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                 min      max
 coords.x1 -122.95000 153.0333
 coords.x2  -37.81667  57.0500</code></pre>
 </div>
 </div>
-<p>The first row reports the west–east range and the second the south– north direction.</p>
+<p>The first row reports the west-east range and the second the south-north direction.</p>
+<p>Next I use <strong>proj4string()</strong> method.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">proj4string</span>(cran_sp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "+proj=longlat +ellps=WGS84 +no_defs"</code></pre>
+</div>
+</div>
+<p>This shows the projection attribute of the Spatial Object.</p>
+<p>For extraction of spatial coordinates, I use coordinates() method. I use indices to subset CRAN mirrors located in Brazil in 2005:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># select indices of Brazil from data frame object</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>brazil_indices <span class="ot">&lt;-</span> <span class="fu">which</span>(df<span class="sc">$</span>loc <span class="sc">==</span> <span class="st">"Brazil"</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># print the indices</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>brazil_indices</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4 5 6 7 8</code></pre>
+</div>
+</div>
+<p>Using these indices locate the Longitude and Latitude coordinates.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coordinates</span>(cran_sp)[brazil_indices,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  coords.x1 coords.x2
+4 -49.26667 -25.41667
+5 -42.86667 -20.75000
+6 -43.20000 -22.90000
+7 -47.63333 -22.71667
+8 -46.63333 -23.53333</code></pre>
+</div>
+</div>
+<p>I can also use <strong>summary()</strong> method to locate the coordinates. This will also give me projection information and coordinates min and max with the information of class in use.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cran_sp[brazil_indices, ])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Object of class SpatialPoints
+Coordinates:
+                min       max
+coords.x1 -49.26667 -42.86667
+coords.x2 -25.41667 -20.75000
+Is projected: FALSE 
+proj4string : [+proj=longlat +ellps=WGS84 +no_defs]
+Number of points: 5</code></pre>
+</div>
+</div>
+</section>
+<section id="data-frames-for-spatial-point-data" class="level2">
+<h2 class="anchored" data-anchor-id="data-frames-for-spatial-point-data">Data Frames for Spatial Point Data</h2>
 </section>
 
 </main>

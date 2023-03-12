@@ -11,7 +11,6 @@ bibliography: references.bib
 date: last-modified
 ---
 
-
 In my last article, I explained the building blocks of **Spatial** and **SpatialPoints** class. But that was only one part of the concept. Since in real world problems, spatial data would use much broader use of SpatialPoints. In this article, I would extend the discussion of SpatialPoints to **Methods** and **Data Frames** for Spatial Point Data.
 
 If you want to have recap of SpatialPoints, you can find it here:
@@ -25,16 +24,20 @@ Methods are available to access the values of the slots of Spatial objects. Here
 
 1. bbox(): It returns the bounding box an object. It is used for data handling and data visualization of **SpatialPoints** class.
 2. proj4string(): Sets or retrieves projection attributes on classes extending SpatialData.
-2. coordinates(): It extracts the coordinates from **SpatialPoints** class. 
-3. summary(): It reports the number of spatial entities, the projection information, and the
+3. coordinates(): It extracts the coordinates from **SpatialPoints** class. 
+4. summary(): It reports the number of spatial entities, the projection information, and the
 bounding box in **SpatialPoints** class.
 
 To have a deeper understanding what each of these methods in the **sp** package, I read a data file with the positions of CRAN mirrors across the world in 2005.
 
+```{r}
+library(sp)
+```
+
+
+
 ```{r dataloading}
 #| cache: true
-
-library(sp)
 
 df <- read.table("http://www.asdar-book.org/datasets/CRAN051001a.txt", header = TRUE)
 ```
@@ -82,15 +85,37 @@ bbox(cran_sp)
 
 The first row reports the west-east range and the second the south-north direction.
 
-Next I use **proj4string** method.
+Next I use **proj4string()** method.
 
 ```{r}
 proj4string(cran_sp)
 ```
-THis shows the projection attribute of the Spatial Object.
+This shows the projection attribute of the Spatial Object.
+
+For extraction of spatial coordinates, I use coordinates() method. I use indices to subset CRAN mirrors located in Brazil in 2005:
+
+```{r}
+# select indices of Brazil from data frame object
+brazil_indices <- which(df$loc == "Brazil")
+
+# print the indices
+brazil_indices
+```
+
+Using these indices locate the Longitude and Latitude coordinates.
+
+```{r}
+coordinates(cran_sp)[brazil_indices,]
+```
+
+I can also use **summary()** method to locate the coordinates. This will also give me projection information and coordinates min and max with the information of class in use.
+
+```{r}
+summary(cran_sp[brazil_indices, ])
+```
 
 
-
+## Data Frames for Spatial Point Data
 
 
 
