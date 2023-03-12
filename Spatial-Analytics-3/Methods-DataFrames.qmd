@@ -4,7 +4,7 @@ author: "Muhammad Uzair"
 warning: FALSE
 about: 
   template: jolla
-  image: points.jpg
+  image: spatial-image.png
 description: ""
 categories: ["Spatial Analytics"]
 bibliography: references.bib
@@ -16,6 +16,8 @@ In my last article, I explained the building blocks of **Spatial** and **Spatial
 If you want to have recap of SpatialPoints, you can find it here:
 
 [Spatial Objects And Points in R](https://medium.com/@muzairaslam/spatial-objects-and-points-in-r-d85e42f716ee)
+
+
 
 
 ## Methods
@@ -39,13 +41,13 @@ library(sp)
 ```{r dataloading}
 #| cache: true
 
-df <- read.table("http://www.asdar-book.org/datasets/CRAN051001a.txt", header = TRUE)
+cran_df <- read.table("http://www.asdar-book.org/datasets/CRAN051001a.txt", header = TRUE)
 ```
 
 Then we see its first six rows:
 
 ```{r}
-head(df)
+head(cran_df)
 ```
 Now I will create **SpaitalPoints** object from it. From my last blog, we know that it requires two steps:
 
@@ -56,7 +58,7 @@ Now I will create **SpaitalPoints** object from it. From my last blog, we know t
 I start with making a longitude and latitude matrix
 ```{r}
 # make a latitude and longitude matrix
-cran_mat <- cbind(df$long, df$lat) 
+cran_mat <- cbind(cran_df$long, cran_df$lat) 
 
 # assign row names from 1 to number of rows
 row.names(cran_mat) <- 1:nrow(cran_mat)
@@ -96,7 +98,7 @@ For extraction of spatial coordinates, I use coordinates() method. I use indices
 
 ```{r}
 # select indices of Brazil from data frame object
-brazil_indices <- which(df$loc == "Brazil")
+brazil_indices <- which(cran_df$loc == "Brazil")
 
 # print the indices
 brazil_indices
@@ -117,14 +119,46 @@ summary(cran_sp[brazil_indices, ])
 
 ## Data Frames for Spatial Point Data
 
+We will start by creating **SpatialPointsDataFrame** object in R. 
+
+```{r}
+cran_sp_df <- SpatialPointsDataFrame(coords = cran_mat, data = cran_df,
+                                     proj4string = CRS_obj, match.ID = TRUE)
+```
+
+This class is very similar to the R's **data.frame()** class which is used to create data frames in R. We will use summary() method to see the attributes contained in it.
 
 
+```{r}
+summary(cran_sp_df)
+```
+
+Using other extraction operators, especially the **$** operator, returns the data frame column referred to
+
+```{r}
+str(cran_sp_df$loc)
+```
+## Relationship between Spatial Points and Spatial Points DataFrame
+
+I summarize the relationships between Spatial Points and their classes from [@roger_2013]
+
+![Spatial points classes and their slots; arrows show subclass extensions](spatial.png)
+
+Let us examine the contents of objects of the SpatialPointsDataFrame class, shown in the figure. Since the class extends SpatialPoints, it also inherits the information contained in the Spatial class object. The data slot is where the information from the data frame is kept, in a data.frame object.
+
+```{r}
+getClass("SpatialPointsDataFrame")
+```
+
+## Conclusion
+In this article, I extended the discussion of SpatialPoints class to its methods and data frame object. These tools will help us visualizing data and wrangling data in data frame. In next article, I will explain Spatial Lines which formed using the Spatial Points.
 
 
+#### References
 
 
-
-
+::: {#refs}
+:::
 
 
 

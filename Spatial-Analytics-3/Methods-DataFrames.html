@@ -85,6 +85,25 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 
@@ -156,12 +175,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="Methods-DataFrames_cache/html/dataloading_6809fa796298346cfe3aa3f65aefca4b">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"http://www.asdar-book.org/datasets/CRAN051001a.txt"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="Methods-DataFrames_cache/html/dataloading_41ca3018f3e08f49e479c6502d09ae2f">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cran_df <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">"http://www.asdar-book.org/datasets/CRAN051001a.txt"</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then we see its first six rows:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(cran_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           place   north     east       loc      long       lat
 1       Brisbane 27d28'S 153d02'E Australia 153.03333 -27.46667
@@ -180,7 +199,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>I start with making a longitude and latitude matrix</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make a latitude and longitude matrix</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>cran_mat <span class="ot">&lt;-</span> <span class="fu">cbind</span>(df<span class="sc">$</span>long, df<span class="sc">$</span>lat) </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>cran_mat <span class="ot">&lt;-</span> <span class="fu">cbind</span>(cran_df<span class="sc">$</span>long, cran_df<span class="sc">$</span>lat) </span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># assign row names from 1 to number of rows</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>(cran_mat) <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(cran_mat)</span>
@@ -225,7 +244,7 @@ coords.x2  -37.81667  57.0500</code></pre>
 <p>For extraction of spatial coordinates, I use coordinates() method. I use indices to subset CRAN mirrors located in Brazil in 2005:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># select indices of Brazil from data frame object</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>brazil_indices <span class="ot">&lt;-</span> <span class="fu">which</span>(df<span class="sc">$</span>loc <span class="sc">==</span> <span class="st">"Brazil"</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>brazil_indices <span class="ot">&lt;-</span> <span class="fu">which</span>(cran_df<span class="sc">$</span>loc <span class="sc">==</span> <span class="st">"Brazil"</span>)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># print the indices</span></span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>brazil_indices</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -262,6 +281,88 @@ Number of points: 5</code></pre>
 </section>
 <section id="data-frames-for-spatial-point-data" class="level2">
 <h2 class="anchored" data-anchor-id="data-frames-for-spatial-point-data">Data Frames for Spatial Point Data</h2>
+<p>We will start by creating <strong>SpatialPointsDataFrame</strong> object in R.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>cran_sp_df <span class="ot">&lt;-</span> <span class="fu">SpatialPointsDataFrame</span>(<span class="at">coords =</span> cran_mat, <span class="at">data =</span> cran_df,</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">proj4string =</span> CRS_obj, <span class="at">match.ID =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This class is very similar to the R’s <strong>data.frame()</strong> class which is used to create data frames in R. We will use summary() method to see the attributes contained in it.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cran_sp_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Object of class SpatialPointsDataFrame
+Coordinates:
+                 min      max
+coords.x1 -122.95000 153.0333
+coords.x2  -37.81667  57.0500
+Is projected: FALSE 
+proj4string : [+proj=longlat +ellps=WGS84 +no_defs]
+Number of points: 54
+Data attributes:
+    place              north               east               loc           
+ Length:54          Length:54          Length:54          Length:54         
+ Class :character   Class :character   Class :character   Class :character  
+ Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+                                                                            
+                                                                            
+                                                                            
+      long                lat        
+ Min.   :-122.9500   Min.   :-37.82  
+ 1st Qu.: -47.3833   1st Qu.: 34.52  
+ Median :   7.8500   Median : 42.73  
+ Mean   :  -0.6617   Mean   : 31.73  
+ 3rd Qu.:  16.8333   3rd Qu.: 47.58  
+ Max.   : 153.0333   Max.   : 57.05  </code></pre>
+</div>
+</div>
+<p>Using other extraction operators, especially the <strong>$</strong> operator, returns the data frame column referred to</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(cran_sp_df<span class="sc">$</span>loc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> chr [1:54] "Australia" "Australia" "Austria" "Brazil" "Brazil" "Brazil" ...</code></pre>
+</div>
+</div>
+</section>
+<section id="relationship-between-spatial-points-and-spatial-points-dataframe" class="level2">
+<h2 class="anchored" data-anchor-id="relationship-between-spatial-points-and-spatial-points-dataframe">Relationship between Spatial Points and Spatial Points DataFrame</h2>
+<p>I summarize the relationships between Spatial Points and their classes from <span class="citation" data-cites="roger_2013">(<a href="#ref-roger_2013" role="doc-biblioref">Roger S. Bivand 2013</a>)</span></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="spatial.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Spatial points classes and their slots; arrows show subclass extensions</figcaption><p></p>
+</figure>
+</div>
+<p>Let us examine the contents of objects of the SpatialPointsDataFrame class, shown in the figure. Since the class extends SpatialPoints, it also inherits the information contained in the Spatial class object. The data slot is where the information from the data frame is kept, in a data.frame object.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getClass</span>(<span class="st">"SpatialPointsDataFrame"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Class "SpatialPointsDataFrame" [package "sp"]
+
+Slots:
+                                                                  
+Name:         data  coords.nrs      coords        bbox proj4string
+Class:  data.frame     numeric      matrix      matrix         CRS
+
+Extends: 
+Class "SpatialPoints", directly
+Class "Spatial", by class "SpatialPoints", distance 2
+
+Known Subclasses: 
+Class "SpatialPixelsDataFrame", directly, with explicit coerce</code></pre>
+</div>
+</div>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>In this article, I extended the discussion of SpatialPoints class to its methods and data frame object. These tools will help us visualizing data and wrangling data in data frame. In next article, I will explain Spatial Lines which formed using the Spatial Points.</p>
+<section id="references" class="level4">
+<h4 class="anchored" data-anchor-id="references">References</h4>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-roger_2013" class="csl-entry" role="doc-biblioentry">
+Roger S. Bivand, Virgilio Gómez-Rubio, Edzer Pebesma. 2013. <em>Applied Spatial Data Analysis with r</em>. Springer New York, NY.
+</div>
+</div>
+</section>
 </section>
 
 </main>
