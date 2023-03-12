@@ -1,0 +1,17 @@
+---
+title: "Methods & DataFrames for Spatial Points"
+author: "Muhammad Uzair"
+about: 
+  template: jolla
+  image: points.jpg
+description: ""
+categories: ["Spatial Analytics"]
+bibliography: references.bib
+date: last-modified
+---
+
+## Introduction
+
+In my last article, I explained the building blocks of **Spatial** and **SpatialPoints** class. But that was only one part of the concept. Since in real world problems, spatial data would use much broader use of SpatialPoints. In this article, I would extend the discussion of SpatialPoints to **Methods** and **Data Frames** for Spatial Point Data.
+
+If you want to have recap of SpatialPoints, you can find it here
