@@ -3,7 +3,7 @@ title: "Spatial Objects And Points in R"
 author: "Muhammad Uzair Aslam"
 about: 
   template: jolla
-  image: points.jpg
+  image: "points.jpg"
 description: ""
 categories: ["Spatial Analytics"]
 bibliography: references.bib
