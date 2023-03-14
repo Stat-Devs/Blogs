@@ -165,8 +165,8 @@ div.csl-indent {
 
 </header>
 
-<p>In my last article, I explained the building blocks of <strong>Spatial</strong> and <strong>SpatialPoints</strong> class. But that was only one part of the concept. Since in real world problems, spatial data would use much broader use of SpatialPoints. In this article, I would extend the discussion of SpatialPoints to <strong>Methods</strong> and <strong>Data Frames</strong> for Spatial Point Data.</p>
-<p>If you want to have recap of SpatialPoints, you can find it here:</p>
+<p>In my last article, I explained the building blocks of the <strong>Spatial</strong> and <strong>SpatialPoints</strong> class. But that was only one part of the concept. In real-world problems, spatial data would use a much broader use of SpatialPoints. In this article, I would extend the discussion of SpatialPoints to <strong>Methods</strong> and <strong>Data Frames</strong> for Spatial Point Data.</p>
+<p>If you want to have a recap of SpatialPoints, you can find it here:</p>
 <p><a href="https://medium.com/@muzairaslam/spatial-objects-and-points-in-r-d85e42f716ee">Spatial Objects And Points in R</a></p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
@@ -209,9 +209,9 @@ div.csl-indent {
 <p>Now I will create <strong>SpaitalPoints</strong> object from it. From my last blog, we know that it requires two steps:</p>
 <ol type="1">
 <li><p>Get the data in the matrix form</p></li>
-<li><p>Set up a CRS (Cordinate Reference System)</p></li>
+<li><p>Set up a CRS (Coordinate Reference System)</p></li>
 </ol>
-<p>I start with making a longitude and latitude matrix</p>
+<p>I start by making a longitude and latitude matrix</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make a latitude and longitude matrix</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>cran_mat <span class="ot">&lt;-</span> <span class="fu">cbind</span>(cran_df<span class="sc">$</span>long, cran_df<span class="sc">$</span>lat) </span>
@@ -233,7 +233,7 @@ div.csl-indent {
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make a CRS object in longlat and World Geodetic System(WGS84)</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>CRS_obj <span class="ot">&lt;-</span> <span class="fu">CRS</span>(<span class="at">projargs =</span> <span class="st">"+proj=longlat +ellps=WGS84"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Finally I create <strong>SpatialPoints</strong> object using the longitude and latitude matrix and CRS.</p>
+<p>Finally, I create <strong>SpatialPoints</strong> object using the longitude and latitude matrix and CRS.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make a spatial points class by long/lat matrix and proj4string</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>cran_sp <span class="ot">&lt;-</span> <span class="fu">SpatialPoints</span>(<span class="at">coords =</span> cran_mat, <span class="at">proj4string =</span> CRS_obj)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -256,7 +256,7 @@ coords.x2  -37.81667  57.0500</code></pre>
 </div>
 </div>
 <p>This shows the projection attribute of the Spatial Object.</p>
-<p>For extraction of spatial coordinates, I use coordinates() method. I use indices to subset CRAN mirrors located in Brazil in 2005:</p>
+<p>For extraction of spatial coordinates, I use the coordinates() method. I use indices to subset CRAN mirrors located in Brazil in 2005:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># select indices of Brazil from data frame object</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>brazil_indices <span class="ot">&lt;-</span> <span class="fu">which</span>(cran_df<span class="sc">$</span>loc <span class="sc">==</span> <span class="st">"Brazil"</span>)</span>
@@ -301,7 +301,7 @@ Number of points: 5</code></pre>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>cran_sp_df <span class="ot">&lt;-</span> <span class="fu">SpatialPointsDataFrame</span>(<span class="at">coords =</span> cran_mat, <span class="at">data =</span> cran_df,</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">proj4string =</span> CRS_obj, <span class="at">match.ID =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>This class is very similar to the R’s <strong>data.frame()</strong> class which is used to create data frames in R. We will use summary() method to see the attributes contained in it.</p>
+<p>This class is very similar to the R’s <strong>data.frame()</strong> class which is used to create data frames in R. We will use the summary() method to see the attributes contained in it.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(cran_sp_df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -369,7 +369,7 @@ Class "SpatialPixelsDataFrame", directly, with explicit coerce</code></pre>
 </section>
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
-<p>In this article, I extended the discussion of SpatialPoints class to its methods and data frame object. These tools will help us visualizing data and wrangling data in data frame. In next article, I will explain Spatial Lines which formed using the Spatial Points.</p>
+<p>In this article, I extended the discussion of SpatialPoints class to its methods and data frame object. These tools will help us visualise data and wrangle data in the data frames. In the next article, I will explain Spatial Lines which are formed using Spatial Points.</p>
 <section id="references" class="level4">
 <h4 class="anchored" data-anchor-id="references">References</h4>
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
