@@ -4,8 +4,8 @@ author: "Muhammad Uzair"
 warning: FALSE
 about: 
   template: jolla
-  image: spatial-image.png
-description: ""
+  image: "spatial-image.png"
+description: "This blog deep dives into Methods and Data Frames for handling Spatial points."
 categories: ["Spatial Analytics"]
 bibliography: references.bib
 date: last-modified
@@ -18,7 +18,9 @@ If you want to have recap of SpatialPoints, you can find it here:
 [Spatial Objects And Points in R](https://medium.com/@muzairaslam/spatial-objects-and-points-in-r-d85e42f716ee)
 
 
-
+```{r Birth_place, out.width="80%", echo = FALSE, fig.align = 'center'}
+knitr::include_graphics("/home/muhammad/Stats-Dev/Repositories/Blogs/Spatial-Analytics-3/spatial-image.PNG")
+```
 
 ## Methods
 
