@@ -11,9 +11,9 @@ bibliography: references.bib
 date: last-modified
 ---
 
-In my last article, I explained the building blocks of **Spatial** and **SpatialPoints** class. But that was only one part of the concept. Since in real world problems, spatial data would use much broader use of SpatialPoints. In this article, I would extend the discussion of SpatialPoints to **Methods** and **Data Frames** for Spatial Point Data.
+In my last article, I explained the building blocks of the **Spatial** and **SpatialPoints** class. But that was only one part of the concept. In real-world problems, spatial data would use a much broader use of SpatialPoints. In this article, I would extend the discussion of SpatialPoints to **Methods** and **Data Frames** for Spatial Point Data.
 
-If you want to have recap of SpatialPoints, you can find it here:
+If you want to have a recap of SpatialPoints, you can find it here:
 
 [Spatial Objects And Points in R](https://medium.com/@muzairaslam/spatial-objects-and-points-in-r-d85e42f716ee)
 
@@ -55,9 +55,9 @@ Now I will create **SpaitalPoints** object from it. From my last blog, we know t
 
 1. Get the data in the matrix form
 
-2. Set up a CRS (Cordinate Reference System)
+2. Set up a CRS (Coordinate Reference System)
 
-I start with making a longitude and latitude matrix
+I start by making a longitude and latitude matrix
 ```{r}
 # make a latitude and longitude matrix
 cran_mat <- cbind(cran_df$long, cran_df$lat) 
@@ -74,7 +74,7 @@ Then I make CRS (Coordinate Reference System) object:
 # make a CRS object in longlat and World Geodetic System(WGS84)
 CRS_obj <- CRS(projargs = "+proj=longlat +ellps=WGS84")
 ```
-Finally I create **SpatialPoints** object using the longitude and latitude matrix and CRS.
+Finally, I create **SpatialPoints** object using the longitude and latitude matrix and CRS.
 
 ```{r}
 # make a spatial points class by long/lat matrix and proj4string
@@ -96,7 +96,7 @@ proj4string(cran_sp)
 ```
 This shows the projection attribute of the Spatial Object.
 
-For extraction of spatial coordinates, I use coordinates() method. I use indices to subset CRAN mirrors located in Brazil in 2005:
+For extraction of spatial coordinates, I use the coordinates() method. I use indices to subset CRAN mirrors located in Brazil in 2005:
 
 ```{r}
 # select indices of Brazil from data frame object
@@ -128,7 +128,7 @@ cran_sp_df <- SpatialPointsDataFrame(coords = cran_mat, data = cran_df,
                                      proj4string = CRS_obj, match.ID = TRUE)
 ```
 
-This class is very similar to the R's **data.frame()** class which is used to create data frames in R. We will use summary() method to see the attributes contained in it.
+This class is very similar to the R's **data.frame()** class which is used to create data frames in R. We will use the summary() method to see the attributes contained in it.
 
 
 ```{r}
@@ -153,7 +153,8 @@ getClass("SpatialPointsDataFrame")
 ```
 
 ## Conclusion
-In this article, I extended the discussion of SpatialPoints class to its methods and data frame object. These tools will help us visualizing data and wrangling data in data frame. In next article, I will explain Spatial Lines which formed using the Spatial Points.
+
+In this article, I extended the discussion of SpatialPoints class to its methods and data frame object. These tools will help us visualise data and wrangle data in the data frames. In the next article, I will explain Spatial Lines which are formed using Spatial Points.
 
 
 #### References
