@@ -1,0 +1,145 @@
+---
+title: "Simple Features in Spatial Analytics"
+author: "Muhammad Uzair Aslam"
+about: 
+  template: jolla
+  image: "points.jpg"
+description: ""
+categories: ["Spatial Analytics"]
+bibliography: references.bib
+date: last-modified
+---
+
+
+In my last article, I explained the workings of the **Methods** and **Data Frames** for **Spatial Point** data. For a quick recap of these important concepts, visit here:
+
+[Spatial Methods And Data Frames in R](https://muzairaslam.medium.com/methods-dataframes-for-spatial-points-9ef725a447f5)
+
+This blog will introduce simple features package and the use of Simple features and geometries and Spatial Analytics.
+
+
+# What is Simple feature geometries
+
+Simple feature geometries are a way to describe the geometries of *features*. By features I mean things that have a geometry, potentially implicitly some time properties, and further attributes that could include labels describing the thing and/or values quantitatively measuring it. [@roger_2023]
+
+
+The most common simple features geometries to represent a *single* feature are:
+
+1. Point:  It is a single point geometry.
+2. Multipoint: It is a set of points.
+3. Linestring: A single linestring (two or more points connected by straight lines)
+4. Multilinestring: It is a set of line strings.
+5. Polygon: It is a exterior ring with zero or more inner rings, denoting holes.
+6. Multipolygon: It is a set of polygons.
+7. GeometryCollection: It is a set of more than two geometris defined above.
+
+Let us plot all the geometries in R. 
+
+
+```{r}
+library(sf)
+
+par(mfrow = c(2,4))
+par(mar = c(1,1,1.2,1))
+
+# 1
+p <- st_point(0:1)
+plot(p, pch = 16)
+title("point")
+box(col = 'grey')
+
+# 2
+mp <- st_multipoint(rbind(c(1,1), c(2, 2), c(4, 1), c(2, 3), c(1,4)))
+plot(mp, pch = 16)
+title("multipoint")
+box(col = 'grey')
+
+# 3
+ls <- st_linestring(rbind(c(1,1), c(5,5), c(5, 6), c(4, 6), c(3, 4), c(2, 3)))
+plot(ls, lwd = 2)
+title("linestring")
+box(col = 'grey')
+
+# 4
+mls <- st_multilinestring(list(
+  rbind(c(1,1), c(5,5), c(5, 6), c(4, 6), c(3, 4), c(2, 3)),
+  rbind(c(3,0), c(4,1), c(2,1))))
+plot(mls, lwd = 2)
+title("multilinestring")
+box(col = 'grey')
+
+# 5 polygon
+po <- st_polygon(list(rbind(c(2,1), c(3,1), c(5,2), c(6,3), c(5,3), c(4,4), c(3,4), c(1,3), c(2,1)),
+    rbind(c(2,2), c(3,3), c(4,3), c(4,2), c(2,2))))
+plot(po, border = 'black', col = '#ff8888', lwd = 2)
+title("polygon")
+box(col = 'grey')
+
+# 6 multipolygon
+mpo <- st_multipolygon(list(
+    list(rbind(c(2,1), c(3,1), c(5,2), c(6,3), c(5,3), c(4,4), c(3,4), c(1,3), c(2,1)),
+        rbind(c(2,2), c(3,3), c(4,3), c(4,2), c(2,2))),
+    list(rbind(c(3,7), c(4,7), c(5,8), c(3,9), c(2,8), c(3,7)))))
+plot(mpo, border = 'black', col = '#ff8888', lwd = 2)
+title("multipolygon")
+box(col = 'grey')
+
+# 7 geometrycollection
+gc <- st_geometrycollection(list(po, ls + c(0,5), st_point(c(2,5)), st_point(c(5,4))))
+plot(gc, border = 'black', col = '#ff6666', pch = 16, lwd = 2)
+title("geometrycollection")
+box(col = 'grey')
+```
+
+All the seven simple features geometries have the defined functions in **sf** package in R. For instance to make Line string I used **st_linestring()**
+ 
+
+Linestrings are called *simple* when they do not self-intersect. I make a linestring in R by the following code. 
+
+```{r}
+ls <- st_linestring(rbind(c(0,0), c(1,1), c(2,2), c(0,2), c(1,1), c(2,0)))
+plot(ls, lwd = 2)
+title("linestring")
+box(col = 'grey')
+
+```
+
+Clearly, this linestring is not "simple" because it intersects at point (1,1). We can also check it using *st_is_simple()* function.
+
+```{r}
+st_is_simple(ls)
+```
+
+Valid polygons and multi-polygons obey all of the following properties:
+
+1. Polygon rings are closed (the last point equals the first)
+2. Polygon holes (inner rings) are inside their exterior ring.
+3. Polygon inner rings maximally touch the exterior ring in single points, not over a line
+4. A polygon ring does not repeat its own path.
+in a multi-polygon, an external ring maximally touches another exterior ring in single points, not over a line
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
