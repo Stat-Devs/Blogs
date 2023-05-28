@@ -10,35 +10,36 @@ bibliography: references.bib
 date: last-modified
 ---
 
-
 In my last article, I explained the workings of the **Methods** and **Data Frames** for **Spatial Point** data. For a quick recap of these important concepts, visit here:
 
 [Spatial Methods And Data Frames in R](https://muzairaslam.medium.com/methods-dataframes-for-spatial-points-9ef725a447f5)
 
-This blog will introduce simple features package and the use of Simple features and geometries and Spatial Analytics.
+This blog will introduce simple features package and the use of Simple features and geometries in Spatial Analytics.
 
-
-# What is Simple feature geometries
+![Simple feature geometries](spatial-cover-image.jpg)
 
 Simple feature geometries are a way to describe the geometries of *features*. By features I mean things that have a geometry, potentially implicitly some time properties, and further attributes that could include labels describing the thing and/or values quantitatively measuring it. [@roger_2023]
 
-
 The most common simple features geometries to represent a *single* feature are:
 
-1. Point:  It is a single point geometry.
-2. Multipoint: It is a set of points.
-3. Linestring: A single linestring (two or more points connected by straight lines)
-4. Multilinestring: It is a set of line strings.
-5. Polygon: It is a exterior ring with zero or more inner rings, denoting holes.
-6. Multipolygon: It is a set of polygons.
-7. GeometryCollection: It is a set of more than two geometris defined above.
+1.  Point: It is a single point geometry.
+2.  Multipoint: It is a set of points.
+3.  Linestring: A single linestring (two or more points connected by straight lines)
+4.  Multilinestring: It is a set of line strings.
+5.  Polygon: It is a exterior ring with zero or more inner rings, denoting holes.
+6.  Multipolygon: It is a set of polygons.
+7.  GeometryCollection: It is a set of more than two geometris defined above.
 
-Let us plot all the geometries in R. 
-
+Let us plot all the geometries in R by using simple features package in R widely known as **sf**
 
 ```{r}
-library(sf)
+library(sf) |>
+  suppressPackageStartupMessages()
+```
 
+Then I start plotting the "big seven" simple features in R.
+
+```{r}
 par(mfrow = c(2,4))
 par(mar = c(1,1,1.2,1))
 
@@ -91,10 +92,9 @@ title("geometrycollection")
 box(col = 'grey')
 ```
 
-All the seven simple features geometries have the defined functions in **sf** package in R. For instance to make Line string I used **st_linestring()**
- 
+These seven simple feature geometries have defined functions in the **sf** package in R. For instance, to create a LineString, I used **st_linestring()**.
 
-Linestrings are called *simple* when they do not self-intersect. I make a linestring in R by the following code. 
+Linestrings are called *simple* when they do not self-intersect. I make a linestring in R by the following code.
 
 ```{r}
 ls <- st_linestring(rbind(c(0,0), c(1,1), c(2,2), c(0,2), c(1,1), c(2,0)))
@@ -104,42 +104,39 @@ box(col = 'grey')
 
 ```
 
-Clearly, this linestring is not "simple" because it intersects at point (1,1). We can also check it using *st_is_simple()* function.
+Clearly, this linestring is not "simple" because it intersects at point (1,1). We can also check it using **st_is_simple()** function.
 
 ```{r}
 st_is_simple(ls)
 ```
 
-Valid polygons and multi-polygons obey all of the following properties:
+For polygons, we need to check their validity. Valid polygons and multi-polygons obey all of the following properties:
 
-1. Polygon rings are closed (the last point equals the first)
-2. Polygon holes (inner rings) are inside their exterior ring.
-3. Polygon inner rings maximally touch the exterior ring in single points, not over a line
-4. A polygon ring does not repeat its own path.
-in a multi-polygon, an external ring maximally touches another exterior ring in single points, not over a line
+1.  Polygon rings are closed (the last point equals the first)
+2.  Polygon holes (inner rings) are inside their exterior ring.
+3.  Polygon inner rings maximally touch the exterior ring in single points, not over a line
+4.  A polygon ring does not repeat its own path.
+5.  In a multi-polygon, an external ring maximally touches another exterior ring in single points, not over a line
 
+## Operations on Geometries
 
+Simple feature geometries can be queried for properties, or transformed or combined into new geometries, and combinations of geometries can be queried for further properties. We can categorise operations on geometries in terms of their input and output. In terms of **output** we have operations that return:
 
+1.  Predicates: a logical asserting a certain property is TRUE
+2.  Measures: a quantity (a numeric value, possibly with measurement unit)
+3.  Transformations: newly generated geometries
 
+In terms of **inputs**, we distinguish operations that are:
 
+1.  Unary when they work on a single geometry
+2.  Binary when they work on pairs of geometries
+3.  N-ary when they work on sets of geometries
 
+### Ending Remarks
 
+This makes the end of an introduction of Simple Features package and its geometries. In my next blog, I will further explain the Operations of simple features and how they can be useful in Spatial Analytics.
 
+### References
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+::: {#refs}
+:::

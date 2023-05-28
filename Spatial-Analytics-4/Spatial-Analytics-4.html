@@ -22,6 +22,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -98,18 +132,143 @@ div.csl-indent {
 
 <p>In my last article, I explained the workings of the <strong>Methods</strong> and <strong>Data Frames</strong> for <strong>Spatial Point</strong> data. For a quick recap of these important concepts, visit here:</p>
 <p><a href="https://muzairaslam.medium.com/methods-dataframes-for-spatial-points-9ef725a447f5">Spatial Methods And Data Frames in R</a></p>
-<p>This blog will present the use of Simple features and geometries.</p>
-<section id="what-is-simple-feature-geometries" class="level1">
-<h1>What is Simple feature geometries</h1>
+<p>This blog will introduce simple features package and the use of Simple features and geometries in Spatial Analytics.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="spatial-cover-image.jpg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Simple Feature Geometries</figcaption>
+</figure>
+</div>
+<section id="simple-feature-geometries" class="level2">
+<h2 class="anchored" data-anchor-id="simple-feature-geometries">Simple feature geometries</h2>
 <p>Simple feature geometries are a way to describe the geometries of <em>features</em>. By features I mean things that have a geometry, potentially implicitly some time properties, and further attributes that could include labels describing the thing and/or values quantitatively measuring it. <span class="citation" data-cites="roger_2023">(<a href="#ref-roger_2023" role="doc-biblioref">Roger S. Bivand 2023</a>)</span></p>
-
+<p>The most common simple features geometries to represent a <em>single</em> feature are:</p>
+<ol type="1">
+<li>Point: It is a single point geometry.</li>
+<li>Multipoint: It is a set of points.</li>
+<li>Linestring: A single linestring (two or more points connected by straight lines)</li>
+<li>Multilinestring: It is a set of line strings.</li>
+<li>Polygon: It is a exterior ring with zero or more inner rings, denoting holes.</li>
+<li>Multipolygon: It is a set of polygons.</li>
+<li>GeometryCollection: It is a set of more than two geometris defined above.</li>
+</ol>
+<p>Let us plot all the geometries in R by using simple features package in R widely known as <strong>sf</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf) <span class="sc">|&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">suppressPackageStartupMessages</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then I start plotting the “big seven” simple features in R.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>))</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="fl">1.2</span>,<span class="dv">1</span>))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 1</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">st_point</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(p, <span class="at">pch =</span> <span class="dv">16</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"point"</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">box</span>(<span class="at">col =</span> <span class="st">'grey'</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 2</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>mp <span class="ot">&lt;-</span> <span class="fu">st_multipoint</span>(<span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>), <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>)))</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mp, <span class="at">pch =</span> <span class="dv">16</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"multipoint"</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu">box</span>(<span class="at">col =</span> <span class="st">'grey'</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 3</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>ls <span class="ot">&lt;-</span> <span class="fu">st_linestring</span>(<span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">5</span>), <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">6</span>), <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">6</span>), <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>), <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>)))</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ls, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"linestring"</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="fu">box</span>(<span class="at">col =</span> <span class="st">'grey'</span>)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 4</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>mls <span class="ot">&lt;-</span> <span class="fu">st_multilinestring</span>(<span class="fu">list</span>(</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">5</span>), <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">6</span>), <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">6</span>), <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>), <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">3</span>)),</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">0</span>), <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>))))</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mls, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"multilinestring"</span>)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="fu">box</span>(<span class="at">col =</span> <span class="st">'grey'</span>)</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="co"># 5 polygon</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>po <span class="ot">&lt;-</span> <span class="fu">st_polygon</span>(<span class="fu">list</span>(<span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">3</span>), <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">3</span>), <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>), <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>), <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>), <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>)),</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>), <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">3</span>), <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))))</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(po, <span class="at">border =</span> <span class="st">'black'</span>, <span class="at">col =</span> <span class="st">'#ff8888'</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"polygon"</span>)</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="fu">box</span>(<span class="at">col =</span> <span class="st">'grey'</span>)</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="co"># 6 multipolygon</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>mpo <span class="ot">&lt;-</span> <span class="fu">st_multipolygon</span>(<span class="fu">list</span>(</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">3</span>), <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">3</span>), <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">4</span>), <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>), <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>), <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>)),</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">3</span>), <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">3</span>), <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))),</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">7</span>), <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">7</span>), <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">8</span>), <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">9</span>), <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">8</span>), <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">7</span>)))))</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(mpo, <span class="at">border =</span> <span class="st">'black'</span>, <span class="at">col =</span> <span class="st">'#ff8888'</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"multipolygon"</span>)</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a><span class="fu">box</span>(<span class="at">col =</span> <span class="st">'grey'</span>)</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="co"># 7 geometrycollection</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>gc <span class="ot">&lt;-</span> <span class="fu">st_geometrycollection</span>(<span class="fu">list</span>(po, ls <span class="sc">+</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">5</span>), <span class="fu">st_point</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">5</span>)), <span class="fu">st_point</span>(<span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">4</span>))))</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(gc, <span class="at">border =</span> <span class="st">'black'</span>, <span class="at">col =</span> <span class="st">'#ff6666'</span>, <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"geometrycollection"</span>)</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a><span class="fu">box</span>(<span class="at">col =</span> <span class="st">'grey'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Spatial-Analytics-4_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>These seven simple feature geometries have defined functions in the <strong>sf</strong> package in R. For instance, to create a LineString, I used <strong>st_linestring()</strong>.</p>
+<p>Linestrings are called <em>simple</em> when they do not self-intersect. I make a linestring in R by the following code.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ls <span class="ot">&lt;-</span> <span class="fu">st_linestring</span>(<span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>), <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>), <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>), <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">0</span>)))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ls, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">title</span>(<span class="st">"linestring"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">box</span>(<span class="at">col =</span> <span class="st">'grey'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Spatial-Analytics-4_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Clearly, this linestring is not “simple” because it intersects at point (1,1). We can also check it using <strong>st_is_simple()</strong> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">st_is_simple</span>(ls)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
+<p>For polygons, we need to check their validity. Valid polygons and multi-polygons obey all of the following properties:</p>
+<ol type="1">
+<li>Polygon rings are closed (the last point equals the first)</li>
+<li>Polygon holes (inner rings) are inside their exterior ring.</li>
+<li>Polygon inner rings maximally touch the exterior ring in single points, not over a line</li>
+<li>A polygon ring does not repeat its own path.</li>
+<li>In a multi-polygon, an external ring maximally touches another exterior ring in single points, not over a line</li>
+</ol>
 </section>
-
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<section id="operations-on-geometries" class="level2">
+<h2 class="anchored" data-anchor-id="operations-on-geometries">Operations on Geometries</h2>
+<p>Simple feature geometries can be queried for properties, or transformed or combined into new geometries, and combinations of geometries can be queried for further properties. We can categorise operations on geometries in terms of their input and output. In terms of <strong>output</strong> we have operations that return:</p>
+<ol type="1">
+<li>Predicates: a logical asserting a certain property is TRUE</li>
+<li>Measures: a quantity (a numeric value, possibly with measurement unit)</li>
+<li>Transformations: newly generated geometries</li>
+</ol>
+<p>In terms of <strong>inputs</strong>, we distinguish operations that are:</p>
+<ol type="1">
+<li>Unary when they work on a single geometry</li>
+<li>Binary when they work on pairs of geometries</li>
+<li>N-ary when they work on sets of geometries</li>
+</ol>
+<section id="ending-remarks" class="level3">
+<h3 class="anchored" data-anchor-id="ending-remarks">Ending Remarks</h3>
+<p>This makes the end of an introduction of Simple Features package and its geometries. In my next blog, I will further explain the Operations of simple features and how they can be useful in Spatial Analytics.</p>
+</section>
+<section id="references" class="level3">
+<h3 class="anchored" data-anchor-id="references">References</h3>
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-roger_2023" class="csl-entry" role="listitem">
 Roger S. Bivand, Edzer Pebesma. 2023. <em>Spatial Data Science with Applications in r</em>. CRC Press.
 </div>
-</div></section></div></main>
+</div>
+</section>
+</section>
+
+</main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
